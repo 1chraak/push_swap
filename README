@@ -1,8 +1,8 @@
-#  Push_swap - 42 School Project
+# Push_swap - 42 School Project
 
 > **An algorithmic journey to sort data with the minimum number of moves.**
 
-##  Overview
+## Overview
 
 `push_swap` is a 42 School algorithm project. The goal is to sort a stack of integers using two stacks (`Stack A` and `Stack B`) and a limited set of instructions (push, swap, rotate, reverse rotate). 
 
@@ -10,7 +10,7 @@ The real challenge is not just sorting the numbers, but sorting them in the **lo
 
 ---
 
-##  Data Structure
+## Data Structure
 
 
 
@@ -21,7 +21,7 @@ The stacks are built using a custom Linked List structure (`t_node`), where each
 
 ---
 
-##  Step-by-Step Code Explanation
+## Step-by-Step Code Explanation
 
 ### Step 1: Parsing and Error Handling (`check_errors.c`)
 Before any sorting begins, the program must ensure the input is valid:
@@ -62,7 +62,7 @@ Now, the program brings everything back to `Stack A` in perfect descending order
 
 ---
 
-##  The Checker (Bonus Part)
+## The Checker (Bonus Part)
 
 The `checker` program validates whether a list of instructions actually sorts the stack.
 1. It reads the exact same input as `push_swap` and builds `Stack A`.
@@ -73,7 +73,7 @@ The `checker` program validates whether a list of instructions actually sorts th
 
 ---
 
-##  Compilation & Usage
+## Compilation & Usage
 
 ### Make Rules
 - `make` - Compiles the mandatory `push_swap` executable.
