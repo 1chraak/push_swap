@@ -1,0 +1,88 @@
+#  Push_swap - 42 School Project
+
+> **An algorithmic journey to sort data with the minimum number of moves.**
+
+##  Overview
+
+`push_swap` is a 42 School algorithm project. The goal is to sort a stack of integers using two stacks (`Stack A` and `Stack B`) and a limited set of instructions (push, swap, rotate, reverse rotate). 
+
+The real challenge is not just sorting the numbers, but sorting them in the **lowest possible number of operations**. To achieve this, this project implements a highly optimized **Chunks Algorithm (K-Sort)**.
+
+---
+
+##  Data Structure
+
+
+
+The stacks are built using a custom Linked List structure (`t_node`), where each node holds:
+- `content`: The actual integer value.
+- `rank`: The normalized index of the number (used for the main algorithm).
+- `next`: A pointer to the next node in the stack.
+
+---
+
+##  Step-by-Step Code Explanation
+
+### Step 1: Parsing and Error Handling (`check_errors.c`)
+Before any sorting begins, the program must ensure the input is valid:
+1. **Splitting & Validating**: Inputs are split by spaces. The program checks that every string contains only valid characters (digits, `-`, `+`).
+2. **Integer Limits**: It converts strings to integers and checks for overflows/underflows (using `ft_atoi`).
+3. **Duplicates**: `if_repetition` scans the stack to ensure no number appears twice. If an error is found, it prints `Error\n` to `stderr` and safely exits.
+
+### Step 2: Indexing / Ranking (`checks.c`)
+Instead of dealing with massive positive or negative numbers (e.g., `-9999` and `2147483647`), the algorithm normalizes them.
+- `fil_rank` assigns a `rank` to each node from `0` (the smallest number) to `N-1` (the largest number).
+- From this point on, the sorting algorithm **only looks at the rank**, making it completely immune to extreme values and gaps between numbers.
+
+### Step 3: Small Sorts (`ft_sort.c`)
+For small sets of numbers, a complex algorithm is overkill.
+- **`sort_3`**: Uses hardcoded `if/else` logic to sort 3 numbers in a maximum of 2 moves (`sa`, `ra`, or `rra`).
+- **`sort_5`**: Finds the 2 smallest numbers (`low_ranked`), pushes them to `Stack B`, uses `sort_3` to sort the remaining 3 numbers in `Stack A`, and then pushes the 2 smallest back to the top of `Stack A`.
+
+### Step 4: The Large Sort (Chunks / K-Sort Algorithm)
+For 100 or 500 numbers, the code uses a "Sliding Window" approach.
+
+
+
+**Phase A: Pushing to Stack B (`to_stack_b`)**
+The program defines a chunk size (`15` for < 500 numbers, `35` for >= 500 numbers). It looks at the top of `Stack A` and asks the `range` function what to do:
+1. **If `range == 1` (Too big)**: The number is larger than the current chunk window. It does `ra` to leave it in `Stack A` for later.
+2. **If `range == 0` (Inside the window)**: The number is pushed to `Stack B` (`pb`). The window moves slightly forward (`i++`).
+3. **If `range == -1` (Smaller than the window)**: The number is pushed to `Stack B` (`pb`), but because it's small, it gets pushed to the bottom of `Stack B` using `rb`. The window moves forward (`i++`).
+
+*Result:* `Stack A` is empty. `Stack B` contains all numbers, roughly sorted in a pyramid shape (largest numbers at the top, smallest at the bottom).
+
+**Phase B: Pushing back to Stack A (`to_stack_a`)**
+Now, the program brings everything back to `Stack A` in perfect descending order:
+1. It finds the absolute largest number currently in `Stack B` (`high_ranked`).
+2. **The Radar Optimization**: It checks if this number is in the top half or bottom half of `Stack B`.
+   - If top half: Uses `rb` to bring it to the top.
+   - If bottom half: Uses `rrb` to bring it to the top (saving many moves).
+3. Once at the top, it pushes it to `Stack A` (`pa`). It repeats this until `Stack B` is empty.
+
+---
+
+##  The Checker (Bonus Part)
+
+The `checker` program validates whether a list of instructions actually sorts the stack.
+1. It reads the exact same input as `push_swap` and builds `Stack A`.
+2. It uses `get_next_line` to read instructions from the standard input line by line.
+3. The `check` function verifies the instruction is one of the valid 11 moves.
+4. The `sort` function applies the move to the stacks in memory. **Clever trick:** It passes the character `'x'` to the action functions (like `ra_b(stack, 'x')`) so that the functions execute the logic but skip printing the instruction to the terminal.
+5. At the end, it checks if `Stack A` is perfectly ascending and `Stack B` is empty. Prints `OK` if true, `KO` if false.
+
+---
+
+##  Compilation & Usage
+
+### Make Rules
+- `make` - Compiles the mandatory `push_swap` executable.
+- `make bonus` - Compiles the `checker` executable.
+- `make clean` - Removes object files.
+- `make fclean` - Removes object files and executables.
+- `make re` - Recompiles everything.
+
+### Usage
+Run the program with a list of numbers:
+```bash
+./push_swap 42 1337 -21 0 99

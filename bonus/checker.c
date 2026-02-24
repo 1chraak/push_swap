@@ -6,7 +6,7 @@
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 13:35:18 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/02/24 13:35:21 by izouriqi         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:11:28 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,16 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 
 int	check(char *line)
 {
-	if (!ft_memcmp(line, "sa\n", 3) || !ft_memcmp(line, "sb\n", 3))
+	if (!ft_memcmp(line, "sa\n", 3) || !ft_memcmp(line, "sb\n", 3)
+		|| !ft_memcmp(line, "ss\n", 3))
 		return (1);
-	else if (!ft_memcmp(line, "ra\n", 3) || !ft_memcmp(line, "rb\n", 3))
+	else if (!ft_memcmp(line, "ra\n", 3) || !ft_memcmp(line, "rb\n", 3)
+		|| !ft_memcmp(line, "rr\n", 3))
 		return (1);
-	else if (!ft_memcmp(line, "rra\n", 4) || !ft_memcmp(line, "rrb\n", 4))
+	else if (!ft_memcmp(line, "rra\n", 4) || !ft_memcmp(line, "rrb\n", 4)
+		|| !ft_memcmp(line, "rrr\n", 4))
 		return (1);
 	else if (!ft_memcmp(line, "pa\n", 3) || !ft_memcmp(line, "pb\n", 3))
-		return (1);
-	else if (!ft_memcmp(line, "pa\n", 3) || !ft_memcmp(line, "pb\n", 3))
-		return (1);
-	else if (!ft_memcmp(line, "rr\n", 3) || !ft_memcmp(line, "pb\n", 3))
 		return (1);
 	write(2, "Error\n", 6);
 	return (0);
