@@ -1,3 +1,7 @@
+*This project has been created as part of the 42 curriculum by izouriqi.*
+
+---
+
 # Push_swap - 42 School Project
 
 > **An algorithmic journey to sort data with the minimum number of moves.**
